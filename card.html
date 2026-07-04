@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mDowód</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f0f0f0;
+            margin: 0;
+            padding: 10px;
+        }
+        .card {
+            max-width: 420px;
+            margin: 15px auto;
+            background: linear-gradient(135deg, #e8f0ff, #c8d8ff);
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.25);
+            border: 1px solid #999;
+        }
+        .top-bar {
+            background: #002b7f;
+            color: white;
+            padding: 10px;
+            font-size: 15px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .content {
+            padding: 20px 20px 30px;
+            position: relative;
+        }
+        .photo {
+            width: 125px;
+            height: 155px;
+            background: #ddd;
+            float: right;
+            border: 3px solid #002b7f;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 55px;
+            margin-left: 15px;
+            margin-bottom: 10px;
+        }
+        h2 { margin: 8px 0 4px; font-size: 23px; }
+        .field { margin: 12px 0; }
+        .label { font-size: 13px; color: #444; }
+        .value { font-size: 17px; font-weight: 600; }
+        .flag { font-size: 42px; margin: 15px 0; }
+        .qr {
+            margin: 15px auto;
+            padding: 10px;
+            background: white;
+            display: inline-block;
+            border: 2px solid #002b7f;
+            font-size: 24px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="top-bar">mDowód • Rzeczpospolita Polska</div>
+        
+        <div class="content">
+            <div class="photo">🪪</div>
+            
+            <h2 id="imieNazwisko">Jan Kowalski</h2>
+            
+            <div class="field">
+                <div class="label">Nazwisko</div>
+                <div class="value" id="nazwisko">KOWALSKI</div>
+            </div>
+            
+            <div class="field">
+                <div class="label">Imię (imiona)</div>
+                <div class="value" id="imie">Jan</div>
+            </div>
+            
+            <div class="field">
+                <div class="label">Data urodzenia</div>
+                <div class="value" id="dataUrodzenia">01.01.1995</div>
+            </div>
+            
+            <div class="field">
+                <div class="label">Numer PESEL</div>
+                <div class="value" id="pesel">95010112345</div>
+            </div>
+            
+            <div class="field">
+                <div class="label">Data ważności</div>
+                <div class="value" id="dataWaznosci">15.08.2031</div>
+            </div>
+            
+            <div style="clear:both;"></div>
+            
+            <div class="flag">🇵🇱</div>
+            <div class="qr">■ □ ■ □<br>□ ■ □ ■<br>QR CODE</div>
+            
+            <p style="font-size:13px; color:#333; margin-top:10px;">
+                Numer dokumentu: <span id="nrDowodu">ABC123456</span>
+            </p>
+        </div>
+    </div>
+
+    <p style="font-size:11px; color:#666; text-align:center; margin:20px;">
+        Aplikacja do celów edukacyjnych i demonstracyjnych.<br>
+        Wszystkie dane są fikcyjne i generowane losowo.
+    </p>
+
+    <button onclick="history.back()" style="background:#0066cc; color:white; border:none; padding:14px 30px; border-radius:8px; font-size:17px; width:90%; max-width:400px; display:block; margin:10px auto;">← Wróć do generatora</button>
+
+    <script>
+        const data = JSON.parse(localStorage.getItem('lastFakeMDowod') || '{}');
+        if (data.imie) {
+            document.getElementById('imieNazwisko').textContent = data.imie + " " + data.nazwisko;
+            document.getElementById('imie').textContent = data.imie;
+            document.getElementById('nazwisko').textContent = data.nazwisko.toUpperCase();
+            document.getElementById('dataUrodzenia').textContent = data.dataUrodzenia;
+            document.getElementById('pesel').textContent = data.pesel;
+            document.getElementById('nrDowodu').textContent = data.nrDowodu;
+            document.getElementById('dataWaznosci').textContent = data.dataWaznosci;
+        }
+    </script>
+</body>
+</html>
