@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mObywatel - mDowód</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        .header {
+            background: #fff;
+            padding: 15px;
+            font-weight: bold;
+            border-bottom: 1px solid #ddd;
+            font-size: 18px;
+        }
+        h2 { color: #003399; margin: 20px 0 10px; }
+        button {
+            background: #0066cc;
+            color: white;
+            border: none;
+            padding: 15px;
+            margin: 15px auto;
+            border-radius: 8px;
+            font-size: 17px;
+            width: 90%;
+            max-width: 400px;
+        }
+        .disclaimer {
+            font-size: 11px;
+            color: #666;
+            margin: 25px 15px;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">mObywatel 2.0</div>
+    <h2>mDowód</h2>
+    
+    <button onclick="generateID()">🔄 Wygeneruj nowy mDowód</button>
+    <button onclick="window.location.href='card.html'">📱 Pokaż ostatni mDowód</button>
+
+    <div class="disclaimer">
+        Aplikacja do celów edukacyjnych i demonstracyjnych.<br>
+        Wszystkie dane są fikcyjne i generowane losowo.<br>
+        Nie należy używać w sposób wprowadzający w błąd.
+    </div>
+
+    <script>
+        function randomItem(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+        function generatePESEL() {
+            const rok = Math.floor(Math.random() * 35) + 1985;
+            const miesiac = Math.floor(Math.random() * 12) + 1;
+            const dzien = Math.floor(Math.random() * 28) + 1;
+            let pesel = rok.toString().slice(-2) + miesiac.toString().padStart(2,'0') + dzien.toString().padStart(2,'0');
+            for (let i = 0; i < 4; i++) pesel += Math.floor(Math.random()*10);
+            const w = [1,3,7,9,1,3,7,9,1,3];
+            let s = 0;
+            for (let i = 0; i < 10; i++) s += parseInt(pesel[i]) * w[i];
+            pesel += (10 - (s % 10)) % 10;
+            return pesel;
+        }
+
+        function generateID() {
+            const imiona = ["Jan","Marta","Piotr","Anna","Kamil","Aleksandra","Tomasz","Karolina","Michał","Oskar"];
+            const nazwiska = ["Kowalski","Nowak","Wiśniewska","Lewandowski","Zielińska","Szymański","Kamińska","Jankowski"];
+            
+            const imie = randomItem(imiona);
+            const nazwisko = randomItem(nazwiska);
+            const pesel = generatePESEL();
+            const dataUr = `${pesel.substring(4,6)}.${pesel.substring(2,4)}.${(pesel[0]<'3' ? "20" : "19")}${pesel.substring(0,2)}`;
+            const nrDowodu = "ABC" + Math.floor(100000 + Math.random()*900000);
+            const dataWaznosci = "15.08.2031";
+
+            const data = {imie, nazwisko, dataUrodzenia: dataUr, pesel, nrDowodu, dataWaznosci};
+            localStorage.setItem('lastFakeMDowod', JSON.stringify(data));
+
+            alert(`✅ mDowód wygenerowany!\n\n${imie} ${nazwisko}\nPESEL: ${pesel}\nData ur.: ${dataUr}`);
+            window.location.href = 'card.html';
+        }
+    </script>
+</body>
+</html>
